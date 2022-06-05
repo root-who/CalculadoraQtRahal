@@ -5,7 +5,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 # Importa interfaces de usuário
 
 import TelaInicial
-import CalculadoraSimplesNew
+import CalculadoraSimples
 import CalculadoraCientifica
 from Model.CalculadoraSimplesModel import CalculadoraSimplesModel
 

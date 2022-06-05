@@ -1,9 +1,9 @@
 import string
-import CalculadoraSimplesNew
+import CalculadoraSimples
 
 class CalculadoraSimplesModel():
     def __init__(self):
-        self.calc = CalculadoraSimplesNew.Ui_Dialog()
+        self.calc = CalculadoraSimples.Ui_Dialog()
               
     def soma(self, num1:str, num2:str):
         return str(float(num1) + float(num2))
