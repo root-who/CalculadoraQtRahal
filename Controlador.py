@@ -1,14 +1,11 @@
 import sys
 from math import *
+from Model.CalculadoraCientificaModel import CalculadoraCientificaModel
 from PyQt5 import QtCore, QtGui, QtWidgets
-
-# Importa interfaces de usuário
-
 import TelaInicial
 import CalculadoraSimples
 import CalculadoraCientifica
 from Model.CalculadoraSimplesModel import CalculadoraSimplesModel
-
 
 # Cria a classe do controlador
 
@@ -22,13 +19,14 @@ class controller:
         self.TelaInicial_Window = QtWidgets.QMainWindow()
         self.TelaInicial_ui = TelaInicial.Ui_Dialog()
         self.TelaInicial_ui.setupUi(self.TelaInicial_Window)
-        self.calculator = CalculadoraSimplesModel()
+        self.calculatorSimples = CalculadoraSimplesModel()
+        self.calculatorCientifica = CalculadoraCientificaModel()
         self.tradicional_Window = QtWidgets.QMainWindow()
-        self.tradicional_ui = self.calculator.calc
+        self.tradicional_ui = self.calculatorSimples.calc
         self.tradicional_ui.setupUi(self.tradicional_Window)
 
         self.cientifica_Window = QtWidgets.QMainWindow()
-        self.cientifica_ui = CalculadoraCientifica.Ui_Dialog()
+        self.cientifica_ui = self.calculatorCientifica.calc
         self.cientifica_ui.setupUi(self.cientifica_Window)
 
         self.TelaInicial_ui.pushButton.clicked.connect(self.show_calc)
@@ -49,7 +47,7 @@ class controller:
         self.tradicional_ui.button_subtraction.clicked.connect(lambda: self.setOperacao("subtr"))  # -
         self.tradicional_ui.button_multiple.clicked.connect(lambda: self.setOperacao("multi"))   # x
         self.tradicional_ui.button_division.clicked.connect(lambda: self.setOperacao("divi"))   # ÷
-        self.tradicional_ui.button_sqrt.clicked.connect(lambda: self.raiz())   # √
+        self.tradicional_ui.button_sqrt.clicked.connect(lambda: self.operacaoSimples("raiz"))   # √
         self.tradicional_ui.button_comann.clicked.connect(lambda: self.isOperatorClicked(","))   # ,
         self.tradicional_ui.button_equal.clicked.connect(lambda: self.igual())     # =
         self.tradicional_ui.button_delete_all.clicked.connect(self.ac)           # AC
@@ -57,46 +55,51 @@ class controller:
 
         # Define os botões da Calculadora Científica
 
-        # self.cientifica_ui.pushButton_43.clicked.connect(self.numero)     # π
-        # self.cientifica_ui.pushButton_23.clicked.connect(self.numero)     # 0
-        # self.cientifica_ui.pushButton_27.clicked.connect(self.numero)     # 1
-        # self.cientifica_ui.pushButton_24.clicked.connect(self.numero)     # 2
-        # self.cientifica_ui.pushButton_25.clicked.connect(self.numero)     # 3
-        # self.cientifica_ui.pushButton_26.clicked.connect(self.numero)     # 4
-        # self.cientifica_ui.pushButton_32.clicked.connect(self.numero)     # 5
-        # self.cientifica_ui.pushButton_22.clicked.connect(self.numero)     # 6
-        # self.cientifica_ui.pushButton_21.clicked.connect(self.numero)     # 7
-        # self.cientifica_ui.pushButton_33.clicked.connect(self.numero)     # 8
-        # self.cientifica_ui.pushButton_29.clicked.connect(self.numero)     # 9
-        # self.cientifica_ui.pushButton_34.clicked.connect(self.operador)   # +
-        # self.cientifica_ui.pushButton_30.clicked.connect(self.operador)   # -
-        # self.cientifica_ui.pushButton_38.clicked.connect(self.operador)   # x
-        # self.cientifica_ui.pushButton_37.clicked.connect(self.operador)   # ÷
-        # self.cientifica_ui.pushButton_35.clicked.connect(self.operador)   # √
-        # self.cientifica_ui.pushButton_40.clicked.connect(self.operador)   # x^
-        # self.cientifica_ui.pushButton_42.clicked.connect(self.angulo)     # Seno
-        # self.cientifica_ui.pushButton_41.clicked.connect(self.angulo)     # Cosseno
-        # self.cientifica_ui.pushButton_39.clicked.connect(self.angulo)     # Tangente
-        # self.cientifica_ui.pushButton_20.clicked.connect(self.virgula)    # ,
-        # self.cientifica_ui.pushButton_28.clicked.connect(self.igual)      # =
-        # self.cientifica_ui.pushButton_36.clicked.connect(self.ac)         # AC
-        # self.cientifica_ui.pushButton_31.clicked.connect(self.delete)     # DEL
+        self.cientifica_ui.pushButton_43.clicked.connect(lambda: self.isOperatorClicked("0"))     # π
+        self.cientifica_ui.pushButton_23.clicked.connect(lambda: self.isOperatorClicked("0"))     # 0
+        self.cientifica_ui.pushButton_27.clicked.connect(lambda: self.isOperatorClicked("1"))     # 1
+        self.cientifica_ui.pushButton_24.clicked.connect(lambda: self.isOperatorClicked("2"))     # 2
+        self.cientifica_ui.pushButton_25.clicked.connect(lambda: self.isOperatorClicked("3"))     # 3
+        self.cientifica_ui.pushButton_26.clicked.connect(lambda: self.isOperatorClicked("4"))     # 4
+        self.cientifica_ui.pushButton_32.clicked.connect(lambda: self.isOperatorClicked("5"))     # 5
+        self.cientifica_ui.pushButton_22.clicked.connect(lambda: self.isOperatorClicked("6"))     # 6
+        self.cientifica_ui.pushButton_21.clicked.connect(lambda: self.isOperatorClicked("7"))     # 7
+        self.cientifica_ui.pushButton_33.clicked.connect(lambda: self.isOperatorClicked("8"))     # 8
+        self.cientifica_ui.pushButton_29.clicked.connect(lambda: self.isOperatorClicked("9"))     # 9
+        self.cientifica_ui.pushButton_34.clicked.connect(lambda: self.setOperacao("soma"))   # +
+        self.cientifica_ui.pushButton_30.clicked.connect(lambda: self.setOperacao("subtr"))   # -
+        self.cientifica_ui.pushButton_38.clicked.connect(lambda: self.setOperacao("multi"))   # x
+        self.cientifica_ui.pushButton_37.clicked.connect(lambda: self.setOperacao("divi"))   # ÷
+        self.cientifica_ui.pushButton_35.clicked.connect(lambda: self.operacaoSimples("raiz"))   # √
+        self.cientifica_ui.pushButton_40.clicked.connect(lambda: self.operacaoSimples("pot"))   # x^
+        self.cientifica_ui.pushButton_42.clicked.connect(lambda: self.operacaoSimples("sin"))     # Seno
+        self.cientifica_ui.pushButton_41.clicked.connect(lambda: self.operacaoSimples("cos"))     # Cosseno
+        self.cientifica_ui.pushButton_39.clicked.connect(lambda: self.operacaoSimples("tan"))     # Tangente
+        self.cientifica_ui.pushButton_20.clicked.connect(lambda: self.isOperatorClicked(","))    # ,
+        self.cientifica_ui.pushButton_28.clicked.connect(lambda: self.igual())      # =
+        self.cientifica_ui.pushButton_36.clicked.connect(self.ac)         # AC
+        self.cientifica_ui.pushButton_31.clicked.connect(self.delete)     # DEL
     
     def setNum2(self, value, iszero):
         if iszero:
             self.num2 = value    
             self.tradicional_ui.label_display.setText(self.num2)
+            self.cientifica_ui.label.setText(self.num2)
         else:
             self.num2 = self.num2 + value;
             self.tradicional_ui.label_display.setText(self.num2)
+            self.cientifica_ui.label.setText(self.num2)
             
     def setNum1(self, value, iszero):
         if iszero:
             self.num1 = value    
             self.tradicional_ui.label_display.setText(self.num1)
+            self.cientifica_ui.label.setText(self.num1)
         else:
             self.num1 = self.num1 + value;
             self.tradicional_ui.label_display.setText(self.num1)
+            self.cientifica_ui.label.setText(self.num1)
+            
  
     def isOperatorClicked(self, value):
         print("aqui " + str(self.operadorClicked))
@@ -120,13 +123,16 @@ class controller:
             else: self.setNum1( value, False)
 
 
-    def raiz(self):
+    def operacaoSimples(self, operacao):
         if self.result == "0":
-            self.result = self.calculator.raiz(self.num1)
+            self.result = self.calculatorCientifica.operacao(self.num1, operacao)
             self.tradicional_ui.label_display.setText(self.result)
+            self.cientifica_ui.label.setText(self.result)
+            self.num="0"
         else:
-            self.result = self.calculator.raiz(self.result)
+            self.result = self.calculatorCientifica.operacao(self.result, operacao)
             self.tradicional_ui.label_display.setText(self.result)
+            self.cientifica_ui.label.setText(self.result)
         
         
     def setOperacao(self, value):
@@ -145,14 +151,15 @@ class controller:
     
     def delete(self):
         self.tradicional_ui.label_display.setText("0")
-        self.cientifica_ui.label.setText(" ")
+        self.cientifica_ui.label.setText("0")
 
     def ac(self):
         pass
     
     def igualOperacaoAgregada(self, num1, num2):
-        self.result = self.calculator.operacao(num1, num2, self.operacao)
+        self.result = self.calculatorSimples.operacao(num1, num2, self.operacao)
         self.tradicional_ui.label_display.setText(self.result)
+        self.cientifica_ui.label.setText(self.result)
         print("NUM1 "+num1)
         print("NUM2 "+num2)
         print("RESULTADO " + self.result)
@@ -162,11 +169,13 @@ class controller:
     def igual(self):
         self.operadorClicked = False
         if self.result == "0":
-            self.result = self.calculator.operacao(self.num1, self.num2, self.operacao)
+            self.result = self.calculatorSimples.operacao(self.num1, self.num2, self.operacao)
             self.tradicional_ui.label_display.setText(self.result)
+            self.cientifica_ui.label.setText(self.result)
         else: 
-            self.result = self.calculator.operacao(self.result, self.num2, self.operacao)
+            self.result = self.calculatorSimples.operacao(self.result, self.num2, self.operacao)
             self.tradicional_ui.label_display.setText(self.result)
+            self.cientifica_ui.label.setText(self.result)
         print("NUM1 "+self.num1)
         print("NUM2 "+self.num2)
         print("RESULTADO " + self.result)
@@ -178,7 +187,7 @@ class controller:
 
     def show_calc(self):
         self.tradicional_ui.label_display.setText("0")
-        self.cientifica_ui.label.setText(" ")
+        self.cientifica_ui.label.setText("0")
         self.TelaInicial_Window.close()
         if self.TelaInicial_ui.radioButton.isChecked(): self.tradicional_Window.show()
         else: self.cientifica_Window.show()

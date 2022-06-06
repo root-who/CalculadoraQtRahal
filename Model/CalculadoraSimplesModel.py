@@ -27,5 +27,4 @@ class CalculadoraSimplesModel():
         if operacao == "divi": return self.divisao(num1, num2)
         if operacao == "multi": return self.multiplicacao(num1, num2)
         if operacao == "subtr": return self.subtracao(num1, num2)
-        if operacao == "raiz": return self.raiz(num1, num2)
     
