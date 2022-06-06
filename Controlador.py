@@ -128,11 +128,12 @@ class controller:
             self.result = self.calculatorCientifica.operacao(self.num1, operacao)
             self.tradicional_ui.label_display.setText(self.result)
             self.cientifica_ui.label.setText(self.result)
-            self.num="0"
+            self.num1="0"
         else:
             self.result = self.calculatorCientifica.operacao(self.result, operacao)
             self.tradicional_ui.label_display.setText(self.result)
             self.cientifica_ui.label.setText(self.result)
+            self.num1="0"
         
         
     def setOperacao(self, value):
