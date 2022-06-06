@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file './Interfaces/CalculadoraSimples.ui'
+# Form implementation generated from reading ui file '.\CalculadoraSimples.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.6
 #
@@ -83,6 +83,7 @@ class Ui_Dialog(object):
         self.button_0 = QtWidgets.QPushButton(Dialog)
         self.button_0.setGeometry(QtCore.QRect(10, 370, 131, 61))
         self.button_0.setObjectName("button_0")
+        self.button_0.clicked.connect(lambda: print("here"))
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -111,11 +112,3 @@ class Ui_Dialog(object):
         self.button_0.setText(_translate("Dialog", "0"))
 
 
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
-    ui.setupUi(Dialog)
-    Dialog.show()
-    sys.exit(app.exec_())

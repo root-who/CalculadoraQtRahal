@@ -16,7 +16,7 @@ class CalculadoraSimplesModel():
         return str(float(num1) * float(num2))
     
     def subtracao(self, num1:str, num2:str):
-        return str(float(num1) - float(num2))
+        return str((float(num1) - float(num2)))
 
     def raiz(self, num1:str, num2:str):
         return str(float(num1) ** float(num2))

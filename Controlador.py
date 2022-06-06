@@ -21,9 +21,9 @@ class controller:
         self.TelaInicial_Window = QtWidgets.QMainWindow()
         self.TelaInicial_ui = TelaInicial.Ui_Dialog()
         self.TelaInicial_ui.setupUi(self.TelaInicial_Window)
-
+        self.calculator = CalculadoraSimplesModel()
         self.tradicional_Window = QtWidgets.QMainWindow()
-        self.tradicional_ui = CalculadoraSimplesModel().calc
+        self.tradicional_ui = self.calculator.calc
         self.tradicional_ui.setupUi(self.tradicional_Window)
 
         self.cientifica_Window = QtWidgets.QMainWindow()
@@ -37,7 +37,7 @@ class controller:
         self.tradicional_ui.button_0.clicked.connect(lambda: self.setNumBussiness("0"))    # 0
         self.tradicional_ui.button_1.clicked.connect(lambda: self.setNumBussiness("1"))    # 1
         self.tradicional_ui.button_2.clicked.connect(lambda: self.setNumBussiness("2"))     # 2
-        self.tradicional_ui.button_3.clicked.connect(lambda:self.setNumBussiness("3"))    # 3
+        self.tradicional_ui.button_3.clicked.connect(lambda: self.setNumBussiness("3"))    # 3
         self.tradicional_ui.button_4.clicked.connect(lambda: self.setNumBussiness("4"))    # 4
         self.tradicional_ui.button_5.clicked.connect(lambda: self.setNumBussiness("5"))    # 5
         self.tradicional_ui.button_6.clicked.connect(lambda: self.setNumBussiness("6"))    # 6
@@ -109,7 +109,7 @@ class controller:
         self.operacao = value
         self.operadorClicked = True 
     
-
+    
     def delete(self):
         self.tradicional_ui.label_display.setText("0")
         self.cientifica_ui.label.setText(" ")
@@ -118,11 +118,11 @@ class controller:
         pass
     
     def igual(self):
-        calculator = CalculadoraSimplesModel()
         self.operadorClicked = False
-        self.result = calculator.operacao(self.num, self.result, self.operacao)
+        self.result = self.calculator.operacao(self.result, self.num, self.operacao)
         self.tradicional_ui.label_display.setText(self.result)
         self.num=""
+        print(self.num + " " + self.result)
 
     def show_TelaInicial(self):
         self.TelaInicial_Window.show()
